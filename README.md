@@ -1,10 +1,11 @@
 # Two-Level Prompt for Rehearsal-free Continual Learning
-
+**This repository holds the source code for TIPS: Two-Level Prompt for Rehearsal-free Continual Learning**
 Our TIPS method features a two-level prompt selection strategy and semantic knowledge distillation to adapt a pre-trained Vision Transformer for continual learning tasks.
+**The overall structure of our model:**
 <p align="center">
 <img src="22.png"  width="800px">
 </p>
-We compare TIPS with recent SOTA across CIFAR, ImageNet-R, CUB, and DomainNet in three incremental scenarios (5, 10, and 20 tasks).
+Results of TIPS and recent SOTA across CIFAR, ImageNet-R, CUB-200, and DomainNet in 3 incremental scenarios (5, 10, and 20 tasks).
 <p align="center">
 <img src="222.png"  width="800px">
 </p>
