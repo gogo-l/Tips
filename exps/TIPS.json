@@ -1,0 +1,29 @@
+{
+    "prefix": " ",
+    "dataset": "cub",
+    "memory_size": 0,
+    "memory_per_class": 0,
+    "fixed_memory": false,
+    "shuffle": false,
+    "init_cls": 20,
+    "increment": 20,
+    "model_name": "tips",
+    "backbone_type": "vit_base_patch16_224_tips",
+    "device": ["0"],
+    "seed": [7],
+    
+    "tuned_epoch": 20,
+    "init_lr": 0.001,
+    "batch_size": 32,
+    "weight_decay": 0,
+    "min_lr": 1e-5,
+    "optimizer": "adam",
+    "scheduler": "steplr",
+    "reinit_optimizer": true,
+    "classorder": [],
+    "pretrained": true,
+    "drop": 0.0,
+    "drop_path": 0.0,
+
+    "prompt_param": [200, 4.0, 0.0]
+}
