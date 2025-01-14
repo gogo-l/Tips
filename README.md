@@ -1,6 +1,7 @@
-### Two-Level Prompt for Rehearsal-free Continual Learning
+### TIPS: Two-Level Prompt Selection for More Stability-Plasticity Balance in Continual Learning
 
-**This repository holds the source code for TIPS: Two-Level Prompt for Rehearsal-free Continual Learning**
+**This repository holds the source code for Paper: TIPS: Two-Level Prompt Selection for More Stability-Plasticity Balance in Continual
+Learning (Under Review on Pattern Recognition)**
 
 Our TIPS method features a two-level prompt selection strategy and semantic knowledge distillation to adapt a pre-trained Vision Transformer for continual learning tasks.
 
