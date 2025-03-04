@@ -369,7 +369,7 @@ class BaseLearner(object):
                 )  # Remove it to avoid duplicative selection
                 data = np.delete(
                     data, i, axis=0
-                )  # Remove it to avoid duplicative selection
+                ) 
 
             selected_exemplars = np.array(selected_exemplars)
             exemplar_targets = np.full(m, class_idx)
