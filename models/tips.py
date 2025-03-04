@@ -20,7 +20,7 @@ from utils.toolkit import tensor2numpy, count_parameters
 from CLIP import CLIP, CustomCLIP, clip_build_model
 
 # tune the model at first session with vpt, and then conduct simple shot.
-num_workers = 0
+num_workers = 8
 networkmodel_network ='network_save/networkvit.pth'
 clipmodel_network ='network_save/clipmodel.pth'
 
@@ -217,7 +217,7 @@ class Learner(BaseLearner):
                 dw_cls = self.dw_k[-1 * torch.ones(targets.size()).long()]
                 loss_supervised = (F.cross_entropy(logits, targets.long()) * dw_cls).mean()
 
-                loss_kd = 0.2 * _KD_loss(lang, text_features, 2).mean() #+ 0.5 * _KD_loss(vis, image_batch_embeddings, 2).mean()
+                loss_kd =_KD_loss(lang, text_features, 2).mean() 
 
                 # ce loss
                 loss = loss_supervised + prompt_loss.sum()  + loss_kd
@@ -238,7 +238,7 @@ class Learner(BaseLearner):
             train_acc = np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
             if (epoch + 1) % 1 == 0:
-                test_acc = self._compute_accuracy(test_loader)   #logit傳入有問題
+                test_acc = self._compute_accuracy(test_loader)   #logit傳入
                 if test_acc > best_acc:
                     best_acc = test_acc
                     torch.save(self._network.state_dict(), networkmodel_network)
