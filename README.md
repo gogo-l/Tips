@@ -5,6 +5,8 @@ Learning (Under Review on Pattern Recognition). If you have any questions about 
 
 Our TIPS method features a two-level prompt selection strategy and semantic knowledge distillation to adapt a pre-trained Vision Transformer for continual learning tasks.
 
+**The checkpoint will be made available for download once the paper has been accepted.**
+
 ### The overall structure of our model:
 <p align="center">
 <img src="overall.png"  width="800px">
