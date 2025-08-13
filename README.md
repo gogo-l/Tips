@@ -1,11 +1,9 @@
 ### TIPS: Two-Level Prompt Selection for More Stability-Plasticity Balance in Continual Learning
 
 **This repository holds the source code for Paper: TIPS: Two-Level Prompt Selection for More Stability-Plasticity Balance in Continual
-Learning (Under Review on Pattern Recognition). If you have any questions about this job, please feel free to contact me. (ZHIKUN FENG 202411090917@std.uestc.edu.cn)**
+Learning (Accepted by Pattern Recognition). If you have any questions about this job, please feel free to contact me. (ZHIKUN FENG 202411090917@std.uestc.edu.cn)**
 
 Our TIPS method features a two-level prompt selection strategy and semantic knowledge distillation to adapt a pre-trained Vision Transformer for continual learning tasks.
-
-### The checkpoint will be made available for download once the paper has been accepted. ###
 
 ### The overall structure of our model:
 <p align="center">
