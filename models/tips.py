@@ -29,19 +29,16 @@ class Learner(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
 
-        # 加载CILP
+       
         cilpmodel = self.load_clip_to_cpu()
         classorder=args["classorder"]
         classnamess1 = get_cub200_class_names()
-        # 创建一个结果列表，用于存储按顺序排列的str列表
         classnames = [None] * len(classnamess1)
-        # 根据int_list的值，重新排列str_list
         for index, value in enumerate(classorder):
             classnames[index] = classnamess1[value]
         inc_cls =args['increment']
         self.classname_origin = classnamess1
         self.classname_order = classnames
-        #创建CLIP
         self.clipmodel = CustomCLIP(cfg=True, classnames=classnames, inc_class = inc_cls,clip_model=cilpmodel).to(self._device)
         for name, param in self.clipmodel.named_parameters():
             if "prompt_learner" not in name and "logit" not in name:
@@ -135,12 +132,9 @@ class Learner(BaseLearner):
         return scheduler
 
     def get_image_embedding(self, images, model):
-        # 打开图像文件，并应用预处理
         # image = preprocess(Image.open(image_path)).unsqueeze(0).to(device)
-        # 得到图像的嵌入向量
         with torch.no_grad():
             image_features = model.encode_image(images)
-            # 归一化特征向量
             image_features /= image_features.norm(dim=-1, keepdim=True)
         return image_features
 
@@ -209,7 +203,6 @@ class Learner(BaseLearner):
                     pass
                 else:
                     print("tips init bug")
-                #产生询问  #clip logit是text和image的相似性
                 # logits
                 logits, lang , prompt_loss = self._network(inputs, query=image_features,sim_logit=clip_logits, train=True)
                 logits = logits[:, :self._total_classes]
@@ -238,7 +231,7 @@ class Learner(BaseLearner):
             train_acc = np.around(tensor2numpy(correct) * 100 / total, decimals=2)
 
             if (epoch + 1) % 1 == 0:
-                test_acc = self._compute_accuracy(test_loader)   #logit傳入
+                test_acc = self._compute_accuracy(test_loader)  
                 if test_acc > best_acc:
                     best_acc = test_acc
                     torch.save(self._network.state_dict(), networkmodel_network)
