@@ -207,7 +207,7 @@ class VisionTransformer(nn.Module):
     def __init__(self, input_resolution: int, patch_size: int, width: int, layers: int, heads: int, output_dim: int):
         super().__init__()
         self.input_resolution = input_resolution
-        self.output_dim = output_dim  #输出为512
+        self.output_dim = output_dim 
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=width, kernel_size=patch_size, stride=patch_size, bias=False)
 
         scale = width ** -0.5
@@ -291,7 +291,7 @@ class CLIP(nn.Module):
 
         self.vocab_size = vocab_size
         self.token_embedding = nn.Embedding(vocab_size, transformer_width)
-        self.positional_embedding = nn.Parameter(torch.empty(self.context_length, transformer_width))  #设置77，512的参数
+        self.positional_embedding = nn.Parameter(torch.empty(self.context_length, transformer_width)) 
         self.ln_final = LayerNorm(transformer_width)
 
         self.text_projection = nn.Parameter(torch.empty(transformer_width, embed_dim))
@@ -441,7 +441,7 @@ def clip_build_model(state_dict: dict):
     return model.eval()
 
 
-class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了的prompt，类别传入只穿当前学习的类别
+class PromptLearner(nn.Module):  
     def __init__(self, cfg, classnames, inc_class, clip_model):
         super().__init__()
         n_cls = len(classnames)
@@ -451,7 +451,7 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
         ctx_dim = clip_model.ln_final.weight.shape[0]
         clip_imsize = clip_model.visual.input_resolution
         cfg_imsize = 224  #cfg.INPUT.SIZE[0]
-        cfg = cfg  #给每一个类建立一个prompt
+        cfg = cfg  
         self.incls = inc_class
         assert cfg_imsize == clip_imsize, f"cfg_imsize ({cfg_imsize}) must equal to clip_imsize ({clip_imsize})"
         if ctx_init:
@@ -478,7 +478,7 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
         print(f'Initial context: "{prompt_prefix}"')
         print(f"Number of context words (tokens): {n_ctx}")
 
-        self.ctx = nn.Parameter(ctx_vectors, requires_grad=True)  # to be optimized  #创建一个prompt池子
+        self.ctx = nn.Parameter(ctx_vectors, requires_grad=True) 
 
         classnames = [name.replace("_", " ") for name in classnames]
         name_lens = [len(_tokenizer.encode(name)) for name in classnames]
@@ -497,11 +497,9 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
         self.tokenized_prompts = tokenized_prompts  # torch.Tensor
         self.name_lens = name_lens
         self.class_token_position = "end"
-        #创建 poolsize，冻结不相干类别prompt
 
-        #传入了当前的classname
 
-    def forward(self, batchclass_name, task_count, train=False):  #出问题了
+    def forward(self, batchclass_name, task_count, train=False): 
         s = int(task_count * self.incls)
         f = int((task_count + 1) * self.incls)
         ctx = self.ctx
@@ -515,11 +513,11 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
                 self.token_prefix[:s].detach().clone()
                 self.token_suffix[:s].detach().clone()
                 self.ctx[:s].detach().clone()
-                prefix = prefix[s:f]  # 冻结prompt
+                prefix = prefix[s:f]  
                 suffix = suffix[s:f]
                 ctx = ctx[s:f]
             else:
-                prefix = prefix[s:f]  # 初始化prefix\ctx\suffix
+                prefix = prefix[s:f]  
                 suffix = suffix[s:f]
                 ctx = ctx[s:f]
         else:
@@ -527,7 +525,7 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
             suffix = suffix[0:f]
             ctx = ctx[0:f]
 
-        prefix = prefix[batchclass_name, :, :]  # 当前batchisize类别prompt
+        prefix = prefix[batchclass_name, :, :]
         suffix = suffix[batchclass_name, :, :]
         ctx = ctx[batchclass_name, :, :]
         # freeze/control past tasks
@@ -589,4 +587,5 @@ class PromptLearner(nn.Module):  #需要传入当前类别，冻结已经学了�
             raise ValueError
 
         return prompts
+
 
